@@ -1,0 +1,36 @@
+#!/bin/bash
+git clone https://github.com/xcalibur839/ethscripts.git ~/mining
+cd ~/mining/setup/
+chmod +x setup
+./setup
+echo "Do you have AMD cards, NVIDIA cards, Both, or do you want to Skip installing drivers?"
+select anbs in "AMD" "NVIDIA" "Both" "Skip"; do
+    case $anbs in
+        AMD ) ./"install AMD drivers"; break;;
+        NVIDIA ) ./"install NVIDIA drivers"; break;;
+        Both ) ./"install AMD drivers" && ./"install NVIDIA drivers"; break;;
+        Skip ) break;;
+    esac
+done
+echo "Would you like to detect temp sensors on this machine? (optional)"
+select yn in "Yes" "No"; do
+    case $yn in
+        Yes ) sudo "~/mining/setup/detect temp sensors"; break;;
+        No ) break;;
+    esac
+done
+echo "Would you like to download the default miner? (optional)"
+echo "You will need to install ethminer before you can mine."
+echo "If you don't download the default, use the getNewMiner script with the .tar.gz URL from github."
+select install in "Download" "Skip"; do
+    case $install in
+        Download ) ~/getNewMiner https://git.io/vpYQA; break;;
+        Skip ) break;;
+    esac
+done
+echo "Please configure your miner settings"
+sleep 5
+nano ~/mining/config.txt
+echo "****Your system has been set up and needs to reboot****"
+echo "This script will now automatically reboot the system. (Press Ctrl + c to cancel)"
+echo "When the system reboots, run the start script in your home folder (~/start)"
