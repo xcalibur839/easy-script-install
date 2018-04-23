@@ -1,21 +1,20 @@
 #!/bin/bash
 git clone https://github.com/xcalibur839/ethscripts.git ~/mining
-cd ~/mining/setup/
-chmod +x setup
-./setup
+chmod +x ~/mining/setup/setup
+~/mining/setup/setup
 echo "Do you have AMD cards, NVIDIA cards, Both, or do you want to Skip installing drivers?"
 select anbs in "AMD" "NVIDIA" "Both" "Skip"; do
     case $anbs in
-        AMD ) ./"install AMD drivers"; break;;
-        NVIDIA ) ./"install NVIDIA drivers"; break;;
-        Both ) ./"install AMD drivers" && ./"install NVIDIA drivers"; break;;
+        AMD ) ~/mining/setup/install-AMD-drivers; break;;
+        NVIDIA ) ~/mining/setup/install-NVIDIA-drivers; break;;
+        Both ) ~/mining/setup/install-AMD-drivers && ~/mining/setup/install-NVIDIA-drivers; break;;
         Skip ) break;;
     esac
 done
 echo "Would you like to detect temp sensors on this machine? (optional)"
 select yn in "Yes" "No"; do
     case $yn in
-        Yes ) sudo "~/mining/setup/detect temp sensors"; break;;
+        Yes ) sudo ~/mining/setup/detect-temp-sensors; break;;
         No ) break;;
     esac
 done
