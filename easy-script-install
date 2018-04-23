@@ -1,4 +1,6 @@
 #!/bin/bash
+defaultMiner=https://github.com/ethereum-mining/ethminer/releases/download/v0.14.0rc4/ethminer-0.14.0rc4-Linux.tar.gz
+
 git clone https://github.com/xcalibur839/ethscripts.git ~/mining
 chmod +x ~/mining/setup/setup
 ~/mining/setup/setup
@@ -29,14 +31,14 @@ echo "You will need to install ethminer before you can mine."
 echo "If you don't download the default, use the getNewMiner script with the .tar.gz URL from github."
 select install in "Download" "Skip"; do
     case $install in
-        Download ) ~/getNewMiner https://git.io/vpYQA; break;;
+        Download ) ~/getNewMiner $defaultMiner; break;;
         Skip ) break;;
     esac
 done
 echo
 echo
 echo "Please configure your miner settings"
-sleep 5
+read -p "Press Enter to continue"
 nano ~/mining/config.txt
 echo
 echo
