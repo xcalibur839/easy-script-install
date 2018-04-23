@@ -1,6 +1,21 @@
 #!/bin/bash
 defaultMiner=https://github.com/ethereum-mining/ethminer/releases/download/v0.14.0rc4/ethminer-0.14.0rc4-Linux.tar.gz
 
+function installAMD {
+    ~/mining/setup/install-AMD-drivers
+    sed -i 's/\(^params="\).*/\1--opencl\"/' ~/mining/config.txt
+}
+
+function installNVIDIA {
+    ~/mining/setup/install-NVIDIA-drivers
+    sed -i 's/\(^params="\).*/\1--cuda\"/' ~/mining/config.txt
+}
+
+function installBoth {
+    installAMD && installNVIDIA
+    sed -i 's/\(^params="\).*/\1--cuda-opencl --opencl-platform 0\"/' ~/mining/config.txt
+}
+
 git clone https://github.com/xcalibur839/ethscripts.git ~/mining
 chmod +x ~/mining/setup/setup
 ~/mining/setup/setup
@@ -9,9 +24,9 @@ echo
 echo "Do you have AMD cards, NVIDIA cards, Both, or do you want to Skip installing drivers?"
 select anbs in "AMD" "NVIDIA" "Both" "Skip"; do
     case $anbs in
-        AMD ) ~/mining/setup/install-AMD-drivers; break;;
-        NVIDIA ) ~/mining/setup/install-NVIDIA-drivers; break;;
-        Both ) ~/mining/setup/install-AMD-drivers && ~/mining/setup/install-NVIDIA-drivers; break;;
+        AMD ) installAMD; break;;
+        NVIDIA ) installNVIDIA; break;;
+        Both ) installBoth; break;;
         Skip ) break;;
     esac
 done
