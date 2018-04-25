@@ -13,7 +13,7 @@ function installNVIDIA {
 
 function installBoth {
     installAMD && installNVIDIA
-    sed -i 's/\(^params="\).*/\1--cuda-opencl --opencl-platform 0\"/' ~/mining/config.txt
+    sed -i 's/\(^params="\).*/\1--cuda-opencl --opencl-platform \$platform\"/' ~/mining/config.txt
 }
 
 git clone https://github.com/xcalibur839/ethscripts.git ~/mining
