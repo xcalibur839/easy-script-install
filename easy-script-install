@@ -16,6 +16,11 @@ function installBoth {
     sed -i 's/\(^params="\).*/\1--cuda-opencl --opencl-platform \$platform\"/' ~/mining/config.txt
 }
 
+if [ ! $(which git) ]
+then
+    sudo apt install -y git
+fi
+
 git clone https://github.com/xcalibur839/ethscripts.git ~/mining
 chmod +x ~/mining/setup/setup
 ~/mining/setup/setup
